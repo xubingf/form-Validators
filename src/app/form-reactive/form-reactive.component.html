@@ -1,0 +1,49 @@
+<div>
+  <h1>Reactive Form</h1>
+  <form [formGroup]="heroForm" #formDir = "ngForm">
+    <div [hidden]="formDir.submitted">
+      <label for="name">Name</label>
+      <input id="name" formControlName="name"  required  />
+
+      <div *ngIf="name.invalid && (name.dirty|| name.touched)">
+        <div *ngIf="name.errors.minLength">
+        至少4个字符
+      </div>
+        <div *ngIf="name.errors.required">
+          必填
+        </div>
+        <div *ngIf="name.errors.forbiddenName">
+          不能是bob
+        </div>
+      </div>
+  <div>
+      <label for="alterEgo">Alter Ego</label>
+      <input id="alterEgo"
+             formControlName="alterEgo" >
+    <div *ngIf="alterEgo.invalid && alterEgo.touched" >
+      <div *ngIf="alterEgo.errors.required"> 必填</div>
+    </div>
+  </div>
+      <div>
+      <label for="power">Hero Power</label>
+      <select id="power"
+              formControlName="power" required >
+        <option *ngFor="let p of powers" [value]="p">{{p}}</option>
+      </select>
+      </div>
+      <div *ngIf="power.invalid && power.touched" >
+        <div *ngIf="power.errors.required">Power 必填</div>
+      </div>
+      <button type="submit"
+              [disabled]="heroForm.invalid">Submit</button>
+      <button type="button"
+              (click)="formDir.resetForm({})">Reset</button>
+    </div>
+  </form>
+  <div  *ngIf="formDir.submitted">
+    <p>Name:{{ heroForm.value.name }}</p>
+    <p>alterEgo:{{ heroForm.value.alterEgo}}</p>
+    <p>Power:{{ heroForm.value.power }}</p>
+    <button (click)="formDir.resetForm({})">添加新成员</button>
+  </div>
+</div>
